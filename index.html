@@ -215,45 +215,29 @@
     margin-top: 20px;
   }
 
-  .liste-vote { list-style: none; margin-top: 15px; }
-
-  .liste-vote li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    padding: 12px 10px;
-    border-bottom: 1px solid #eee;
-    flex-wrap: wrap;
-  }
-
-  .barre-wrap { flex: 1; min-width: 150px; height: 14px; background: #eee; border-radius: 7px; overflow: hidden; }
-  .barre { height: 100%; background: linear-gradient(to right, var(--mer-clair), var(--soleil)); width: 0; transition: width 0.6s; }
-
-  .score { font-weight: bold; min-width: 40px; text-align: right; }
-
-  button.voter {
-    background: var(--mer);
+  .bouton-vote {
+    display: inline-block;
+    background: var(--terre);
     color: var(--blanc);
-    border: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.3s;
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(201, 82, 63, 0.4);
   }
 
-  button.voter:hover { background: var(--terre); }
-  button.voter:disabled { background: #aaa; cursor: not-allowed; }
-
-  .message-vote {
-    margin-top: 15px;
-    padding: 10px 15px;
-    border-radius: 6px;
-    background: #e8f6ef;
-    color: #1e7d4e;
-    display: none;
+  .bouton-vote:hover {
+    background: var(--mer);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(27, 108, 168, 0.4);
   }
+
+  .consigne-vote { font-size: 17px; margin-bottom: 18px; }
+  .note-vote { font-size: 13px; color: #889; margin-top: 14px; }
+
+  .zone-vote { text-align: center; }
 
   /* ===== Pied de page ===== */
   footer {
@@ -298,7 +282,7 @@
   </div>
   <div class="logo-etab">
     <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#c9523f"/><path d="M18 42l8-10 5 5 9-14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
-    <div class="nom">Lycée Exemple 3<small>GSRD</small></div>
+    <div class="nom">Lycée Exemple 3<small>RGSD</small></div>
   </div>
 </div>
 
@@ -316,7 +300,7 @@
   <section id="projet">
     <h2>Le projet</h2>
     <p class="intro">
-      Des élèves  de trois établissements riverains de la Méditerranée s'unissent
+      Des élèves de trois établissements riverains de la Méditerranée s'unissent
       pour capturer leur vision de la <strong>jeunesse méditerranéenne</strong> : la mer, la lumière,
       les villes, les rencontres, les traditions et les rêves d'une génération.
       Ce site présente d'une part les grands photographes qui inspirent ce projet,
@@ -326,7 +310,7 @@
 
   <!-- ================= PHOTOGRAPHES DE RENOM ================= -->
   <section id="photographes">
-    <h2>Photographes </h2>
+    <h2>Photographes de renom</h2>
     <p>Des regards qui inspirent notre projet — la Méditerranée vue par les maîtres de la photographie.</p>
     <div class="cartes-photographes">
       <div class="carte-photo">
@@ -409,11 +393,16 @@
   <!-- ================= VOTE ================= -->
   <section id="vote">
     <h2>Vote pour ta photo préférée</h2>
-    <p>Chaque visiteur peut voter <strong>une seule fois</strong>. Le gagnant sera annoncé lors de l'exposition finale !</p>
+    <p>Le vote se fait via un formulaire en ligne : <strong>un seul vote par élève</strong>. Le gagnant sera annoncé lors de l'exposition finale !</p>
 
     <div class="zone-vote">
-      <ul class="liste-vote" id="liste-vote"></ul>
-      <div class="message-vote" id="message-vote"></div>
+      <p class="consigne-vote">🗳️ Regarde la galerie ci-dessus, puis clique sur le bouton pour aller voter :</p>
+      <a class="bouton-vote"
+         href="https://docs.google.com/forms/d/TON_ID_DE_FORMULAIRE/viewform"
+         target="_blank">
+        Voter maintenant
+      </a>
+      <p class="note-vote"><em>Une seule réponse par élève sera acceptée.</em></p>
     </div>
   </section>
 
@@ -427,89 +416,6 @@
   <p>Projet photo « Jeunesse Méditerranéenne » — Classe de Seconde &amp; établissements partenaires</p>
   <p>Année scolaire 2026–2027</p>
 </footer>
-
-<script>
-  // ===== Données des photos en compétition (modifiables librement) =====
-  const photos = [
-    { id: 1, titre: "Aube sur le port", eleve: "Élève A", etab: "Lycée 1" },
-    { id: 2, titre: "Rires au souk", eleve: "Élève B", etab: "Lycée 2" },
-    { id: 3, titre: "Terrain de foot, l'été", eleve: "Élève C", etab: "Lycée 3" },
-    { id: 4, titre: "Les mains de ma grand-mère", eleve: "Élève D", etab: "Lycée 1" },
-    { id: 5, titre: "Vague à l'âme", eleve: "Élève E", etab: "Lycée 2" },
-    { id: 6, titre: "Café du matin", eleve: "Élève F", etab: "Lycée 3" },
-  ];
-
-  const CLE = "votes_jeunesse_med";
-  const CLE_DEJA = "a_vote_jm";
-
-  // Chargement des scores (démo : stockés dans ce navigateur)
-  function chargerScores() {
-    try {
-      return JSON.parse(localStorage.getItem(CLE)) || {};
-    } catch (e) { return {}; }
-  }
-
-  function sauverScores(s) {
-    try { localStorage.setItem(CLE, JSON.stringify(s)); } catch (e) {}
-  }
-
-  function dejaVotee() {
-    try { return localStorage.getItem(CLE_DEJA) === "oui"; } catch (e) { return false; }
-  }
-
-  function afficher() {
-    const scores = chargerScores();
-    const aVote = dejaVotee();
-    const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
-
-    const liste = document.getElementById("liste-vote");
-    liste.innerHTML = "";
-
-    photos.forEach(p => {
-      const v = scores[p.id] || 0;
-      const pct = Math.round((v / total) * 100);
-      const li = document.createElement("li");
-
-      const nom = document.createElement("span");
-      nom.innerHTML = "<strong>" + p.titre + "</strong><br><small>" + p.eleve + " — " + p.etab + "</small>";
-
-      const barreWrap = document.createElement("div");
-      barreWrap.className = "barre-wrap";
-      const barre = document.createElement("div");
-      barre.className = "barre";
-      barre.style.width = pct + "%";
-      barreWrap.appendChild(barre);
-
-      const score = document.createElement("span");
-      score.className = "score";
-      score.textContent = v;
-
-      const btn = document.createElement("button");
-      btn.className = "voter";
-      btn.textContent = "Voter";
-      btn.disabled = aVote;
-      btn.onclick = () => voter(p.id);
-
-      li.append(nom, barreWrap, score, btn);
-      liste.appendChild(li);
-    });
-  }
-
-  function voter(id) {
-    if (dejaVotee()) return;
-    const scores = chargerScores();
-    scores[id] = (scores[id] || 0) + 1;
-    sauverScores(scores);
-    try { localStorage.setItem(CLE_DEJA, "oui"); } catch (e) {}
-
-    const msg = document.getElementById("message-vote");
-    msg.style.display = "block";
-    msg.textContent = "✅ Merci ! Ton vote a bien été enregistré.";
-    afficher();
-  }
-
-  afficher();
-</script>
 
 </body>
 </html>
