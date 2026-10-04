@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeunesse Méditerranéenne — Projet Photo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --mer: #1b6ca8;
+    --mer-clair: #3aa5d8;
+    --sable: #f6efe4;
+    --soleil: #f2a541;
+    --terre: #c9523f;
+    --texte: #233447;
+    --blanc: #ffffff;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: var(--texte);
+    background: var(--sable);
+    line-height: 1.6;
+  }
+
+  /* ===== En-tête ===== */
+  header.hero {
+    background: linear-gradient(160deg, var(--mer) 0%, var(--mer-clair) 55%, var(--soleil) 130%);
+    color: var(--blanc);
+    text-align: center;
+    padding: 60px 20px 40px;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .hero .sous-titre {
+    font-size: 18px;
+    opacity: 0.95;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .hero .vague {
+    display: block;
+    width: 100%;
+    margin-top: -1px;
+  }
+
+  /* ===== Logos des établissements ===== */
+  .logos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    background: var(--blanc);
+    padding: 25px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+
+  .logo-etab {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-etab svg { width: 55px; height: 55px; flex-shrink: 0; }
+
+  .logo-etab .nom {
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .logo-etab .nom small {
+    display: block;
+    font-weight: 400;
+    color: #667;
+  }
+
+  /* ===== Navigation ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    background: var(--blanc);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--texte);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 15px;
+    transition: all 0.3s;
+  }
+
+  nav a:hover, nav a.actif {
+    background: var(--mer);
+    color: var(--blanc);
+  }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+
+  section { margin-bottom: 50px; scroll-margin-top: 80px; }
+
+  h2 {
+    color: var(--mer);
+    font-size: 26px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--soleil), transparent);
+  }
+
+  .intro { font-size: 17px; }
+
+  /* ===== Galerie photographes de renom ===== */
+  .cartes-photographes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 22px;
+    margin-top: 20px;
+  }
+
+  .carte-photo {
+    background: var(--blanc);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    transition: transform 0.3s;
+  }
+
+  .carte-photo:hover { transform: translateY(-5px); }
+
+  .carte-photo .image {
+    height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blanc);
+    font-size: 15px;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .carte-photo .info { padding: 15px; }
+  .carte-photo h3 { font-size: 18px; color: var(--mer); margin-bottom: 5px; }
+  .carte-photo p { font-size: 14px; }
+
+  /* Images de démonstration : dégradés (à remplacer par vos vraies photos) */
+  .img1 { background: linear-gradient(135deg, #1b6ca8, #3aa5d8); }
+  .img2 { background: linear-gradient(135deg, #f2a541, #c9523f); }
+  .img3 { background: linear-gradient(135deg, #2e8b6f, #1b6ca8); }
+  .img4 { background: linear-gradient(135deg, #c9523f, #f6efe4); }
+  .img5 { background: linear-gradient(135deg, #233447, #3aa5d8); }
+  .img6 { background: linear-gradient(135deg, #f2a541, #2e8b6f); }
+
+  /* ===== Galerie des élèves ===== */
+  .grille-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+    margin-top: 20px;
+  }
+
+  .photo {
+    background: var(--blanc);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  }
+
+  .photo .vignette {
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .photo .legende {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .photo .legende strong { display: block; color: var(--mer); }
+
+  /* ===== Vote ===== */
+  .zone-vote {
+    background: var(--blanc);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    margin-top: 20px;
+  }
+
+  .liste-vote { list-style: none; margin-top: 15px; }
+
+  .liste-vote li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 10px;
+    border-bottom: 1px solid #eee;
+    flex-wrap: wrap;
+  }
+
+  .barre-wrap { flex: 1; min-width: 150px; height: 14px; background: #eee; border-radius: 7px; overflow: hidden; }
+  .barre { height: 100%; background: linear-gradient(to right, var(--mer-clair), var(--soleil)); width: 0; transition: width 0.6s; }
+
+  .score { font-weight: bold; min-width: 40px; text-align: right; }
+
+  button.voter {
+    background: var(--mer);
+    color: var(--blanc);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+  }
+
+  button.voter:hover { background: var(--terre); }
+  button.voter:disabled { background: #aaa; cursor: not-allowed; }
+
+  .message-vote {
+    margin-top: 15px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    background: #e8f6ef;
+    color: #1e7d4e;
+    display: none;
+  }
+
+  /* ===== Pied de page ===== */
+  footer {
+    background: var(--texte);
+    color: #fff;
+    text-align: center;
+    padding: 25px 20px;
+    font-size: 14px;
+  }
+
+  footer .vague-bas { margin-bottom: 15px; display: block; width: 100%; }
+
+  @media (max-width: 600px) {
+    .logos { gap: 20px; }
+    .logo-etab svg { width: 40px; height: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= EN-TÊTE ================= -->
+<header class="hero">
+  <h1>🌊 Jeunesse Méditerranéenne</h1>
+  <p class="sous-titre">Projet photo inter-établissements — Regards de jeunes sur la Méditerranée</p>
+</header>
+
+<!-- Vague décorative -->
+<svg class="vague" viewBox="0 0 1440 70" preserveAspectRatio="none">
+  <path d="M0,40 C240,80 480,0 720,30 C960,60 1200,20 1440,50 L1440,70 L0,70 Z" fill="#ffffff"></path>
+</svg>
+
+<!-- ================= LOGOS DES 3 ÉTABLISSEMENTS ================= -->
+<div class="logos">
+  <!-- Établissement 1 (remplacer les SVG par vos vrais logos en <img src="images/logo1.png">) -->
+  <div class="logo-etab">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#1b6ca8"/><path d="M18 32l8 8 16-18" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/></svg>
+    <div class="nom">Lycée Exemple 1<small>Tunis</small></div>
+  </div>
+  <div class="logo-etab">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#f2a541"/><path d="M30 14v32M14 30h32" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>
+    <div class="nom">Lycée Exemple 2<small>Marseille</small></div>
+  </div>
+  <div class="logo-etab">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#c9523f"/><path d="M18 42l8-10 5 5 9-14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+    <div class="nom">Lycée Exemple 3<small>Barcelone</small></div>
+  </div>
+</div>
+
+<!-- ================= NAVIGATION ================= -->
+<nav>
+  <a href="#projet" class="actif">Le projet</a>
+  <a href="#photographes">Photographes de renom</a>
+  <a href="#galerie">Galerie des élèves</a>
+  <a href="#vote">Vote</a>
+</nav>
+
+<main>
+
+  <!-- ================= LE PROJET ================= -->
+  <section id="projet">
+    <h2>Le projet</h2>
+    <p class="intro">
+      Des élèves de Seconde de trois établissements riverains de la Méditerranée s'unissent
+      pour capturer leur vision de la <strong>jeunesse méditerranéenne</strong> : la mer, la lumière,
+      les villes, les rencontres, les traditions et les rêves d'une génération.
+      Ce site présente d'une part les grands photographes qui inspirent ce projet,
+      et d'autre part les travaux des élèves, que vous êtes invités à départager par votre vote.
+    </p>
+  </section>
+
+  <!-- ================= PHOTOGRAPHES DE RENOM ================= -->
+  <section id="photographes">
+    <h2>Photographes de renom</h2>
+    <p>Des regards qui inspirent notre projet — la Méditerranée vue par les maîtres de la photographie.</p>
+    <div class="cartes-photographes">
+      <div class="carte-photo">
+        <div class="image img1">[Photo : Henri Cartier-Bresson — Le Mur de Berlin, 1961]</div>
+        <div class="info">
+          <h3>Henri Cartier-Bresson</h3>
+          <p>Le maître de « l'instant décisif ». Son regard humaniste sur les rives de la Méditerranée inspire la spontanéité de nos clichés.</p>
+        </div>
+      </div>
+      <div class="carte-photo">
+        <div class="image img2">[Photo : Josef Koudelka — Gitans, 1975]</div>
+        <div class="info">
+          <h3>Josef Koudelka</h3>
+          <p>Photographe tchèque célèbre pour ses reportages sur les peuples et les paysages d'Europe du Sud.</p>
+        </div>
+      </div>
+      <div class="carte-photo">
+        <div class="image img3">[Photo : Martine Franck — Côtes méditerranéennes]</div>
+        <div class="info">
+          <h3>Martine Franck</h3>
+          <p>Une œilé attentif aux cultures et aux visages du pourtour méditerranéen, du Portugal à l'Asie Mineure.</p>
+        </div>
+      </div>
+      <div class="carte-photo">
+        <div class="image img4">[Photo : Marc Riboud — Istanbul, 1955]</div>
+        <div class="info">
+          <h3>Marc Riboud</h3>
+          <p>Grand voyageur, il a saisi la vie quotidienne des grandes villes méditerranéennes avec poésie.</p>
+        </div>
+      </div>
+      <div class="carte-photo">
+        <div class="image img5">[Photo : Abbas — Magnum Photos]</div>
+        <div class="info">
+          <h3>Abbas</h3>
+          <p>Photographe iranien de l'agence Magnum, dont le travail sur les révolutions et les rives de la Méditerranée reste une référence.</p>
+        </div>
+      </div>
+      <div class="carte-photo">
+        <div class="image img6">[Photo : Yann Arthus-Bertrand — La Terre vue du ciel]</div>
+        <div class="info">
+          <h3>Yann Arthus-Bertrand</h3>
+          <p>Ses vues aériennes des côtes et des paysages méditerranéens rappellent la beauté fragile de notre mer commune.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GALERIE DES ÉLÈVES ================= -->
+  <section id="galerie">
+    <h2>Galerie des élèves</h2>
+    <p>Les photographies réalisées par les élèves des trois établissements, sur le thème « Jeunesse méditerranéenne ».</p>
+    <div class="grille-photos">
+      <div class="photo">
+        <div class="vignette img1">[Photo élève 1]</div>
+        <div class="legende"><strong>« Aube sur le port »</strong>Élève A — Lycée 1</div>
+      </div>
+      <div class="photo">
+        <div class="vignette img2">[Photo élève 2]</div>
+        <div class="legende"><strong>« Rires au souk »</strong>Élève B — Lycée 2</div>
+      </div>
+      <div class="photo">
+        <div class="vignette img3">[Photo élève 3]</div>
+        <div class="legende"><strong>« Terrain de foot, l'été »</strong>Élève C — Lycée 3</div>
+      </div>
+      <div class="photo">
+        <div class="vignette img4">[Photo élève 4]</div>
+        <div class="legende"><strong>« Les mains de ma grand-mère »</strong>Élève D — Lycée 1</div>
+      </div>
+      <div class="photo">
+        <div class="vignette img5">[Photo élève 5]</div>
+        <div class="legende"><strong>« Vague à l'âme »</strong>Élève E — Lycée 2</div>
+      </div>
+      <div class="photo">
+        <div class="vignette img6">[Photo élève 6]</div>
+        <div class="legende"><strong>« Café du matin »</strong>Élève F — Lycée 3</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= VOTE ================= -->
+  <section id="vote">
+    <h2>Vote pour ta photo préférée</h2>
+    <p>Chaque visiteur peut voter <strong>une seule fois</strong>. Le gagnant sera annoncé lors de l'exposition finale !</p>
+
+    <div class="zone-vote">
+      <ul class="liste-vote" id="liste-vote"></ul>
+      <div class="message-vote" id="message-vote"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= PIED DE PAGE ================= -->
+<svg class="vague-bas" viewBox="0 0 1440 60" preserveAspectRatio="none">
+  <path d="M0,30 C240,-10 480,50 720,25 C960,0 1200,45 1440,20 L1440,60 L0,60 Z" fill="#233447"></path>
+</svg>
+<footer>
+  <p>Projet photo « Jeunesse Méditerranéenne » — Classe de Seconde &amp; établissements partenaires</p>
+  <p>Année scolaire 2026–2027</p>
+</footer>
+
+<script>
+  // ===== Données des photos en compétition (modifiables librement) =====
+  const photos = [
+    { id: 1, titre: "Aube sur le port", eleve: "Élève A", etab: "Lycée 1" },
+    { id: 2, titre: "Rires au souk", eleve: "Élève B", etab: "Lycée 2" },
+    { id: 3, titre: "Terrain de foot, l'été", eleve: "Élève C", etab: "Lycée 3" },
+    { id: 4, titre: "Les mains de ma grand-mère", eleve: "Élève D", etab: "Lycée 1" },
+    { id: 5, titre: "Vague à l'âme", eleve: "Élève E", etab: "Lycée 2" },
+    { id: 6, titre: "Café du matin", eleve: "Élève F", etab: "Lycée 3" },
+  ];
+
+  const CLE = "votes_jeunesse_med";
+  const CLE_DEJA = "a_vote_jm";
+
+  // Chargement des scores (démo : stockés dans ce navigateur)
+  function chargerScores() {
+    try {
+      return JSON.parse(localStorage.getItem(CLE)) || {};
+    } catch (e) { return {}; }
+  }
+
+  function sauverScores(s) {
+    try { localStorage.setItem(CLE, JSON.stringify(s)); } catch (e) {}
+  }
+
+  function dejaVotee() {
+    try { return localStorage.getItem(CLE_DEJA) === "oui"; } catch (e) { return false; }
+  }
+
+  function afficher() {
+    const scores = chargerScores();
+    const aVote = dejaVotee();
+    const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
+
+    const liste = document.getElementById("liste-vote");
+    liste.innerHTML = "";
+
+    photos.forEach(p => {
+      const v = scores[p.id] || 0;
+      const pct = Math.round((v / total) * 100);
+      const li = document.createElement("li");
+
+      const nom = document.createElement("span");
+      nom.innerHTML = "<strong>" + p.titre + "</strong><br><small>" + p.eleve + " — " + p.etab + "</small>";
+
+      const barreWrap = document.createElement("div");
+      barreWrap.className = "barre-wrap";
+      const barre = document.createElement("div");
+      barre.className = "barre";
+      barre.style.width = pct + "%";
+      barreWrap.appendChild(barre);
+
+      const score = document.createElement("span");
+      score.className = "score";
+      score.textContent = v;
+
+      const btn = document.createElement("button");
+      btn.className = "voter";
+      btn.textContent = "Voter";
+      btn.disabled = aVote;
+      btn.onclick = () => voter(p.id);
+
+      li.append(nom, barreWrap, score, btn);
+      liste.appendChild(li);
+    });
+  }
+
+  function voter(id) {
+    if (dejaVotee()) return;
+    const scores = chargerScores();
+    scores[id] = (scores[id] || 0) + 1;
+    sauverScores(scores);
+    try { localStorage.setItem(CLE_DEJA, "oui"); } catch (e) {}
+
+    const msg = document.getElementById("message-vote");
+    msg.style.display = "block";
+    msg.textContent = "✅ Merci ! Ton vote a bien été enregistré.";
+    afficher();
+  }
+
+  afficher();
+</script>
+
+</body>
+</html>
