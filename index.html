@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jeunesse Méditerranéenne — Projet Photo</title>
+<title>Prix Zoom Zoom 2 — Jeunesse Méditerranéenne</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -133,7 +133,7 @@
 
   .intro { font-size: 17px; }
 
-  /* ===== Galerie photographes de renom ===== */
+  /* ===== Galerie photos ===== */
   .cartes-photographes {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -141,74 +141,31 @@
     margin-top: 20px;
   }
 
-  .carte-photo .image {
-    height: 190px;        /* hauteur fixe du cadre */
-    overflow: hidden;     /* rien ne peut déborder */
-}
-
-.carte-photo .image img {
-    width: 100%;          /* la photo prend toute la largeur du cadre */
-    height: 100%;         /* ... et toute la hauteur */
-    object-fit: cover;    /* elle remplit le cadre SANS se déformer */
-    display: block;       /* évite l'espace bizarre sous l'image */
-}
+  .carte-photo {
+    background: var(--blanc);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    transition: transform 0.3s;
+  }
 
   .carte-photo:hover { transform: translateY(-5px); }
 
   .carte-photo .image {
     height: 190px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--blanc);
-    font-size: 15px;
-    text-align: center;
-    padding: 15px;
+    overflow: hidden;
+  }
+
+  .carte-photo .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .carte-photo .info { padding: 15px; }
   .carte-photo h3 { font-size: 18px; color: var(--mer); margin-bottom: 5px; }
   .carte-photo p { font-size: 14px; }
-
-  /* Images de démonstration : dégradés (à remplacer par vos vraies photos) */
-  .img1 { background: linear-gradient(135deg, #1b6ca8, #3aa5d8); }
-  .img2 { background: linear-gradient(135deg, #f2a541, #c9523f); }
-  .img3 { background: linear-gradient(135deg, #2e8b6f, #1b6ca8); }
-  .img4 { background: linear-gradient(135deg, #c9523f, #f6efe4); }
-  .img5 { background: linear-gradient(135deg, #233447, #3aa5d8); }
-  .img6 { background: linear-gradient(135deg, #f2a541, #2e8b6f); }
-
-  /* ===== Galerie des élèves ===== */
-  .grille-photos {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 18px;
-    margin-top: 20px;
-  }
-
-  .photo {
-    background: var(--blanc);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  }
-
-  .photo .vignette {
-    height: 160px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255,255,255,0.85);
-    font-size: 13px;
-    text-align: center;
-  }
-
-  .photo .legende {
-    padding: 12px;
-    font-size: 14px;
-  }
-
-  .photo .legende strong { display: block; color: var(--mer); }
 
   /* ===== Vote ===== */
   .zone-vote {
@@ -217,6 +174,7 @@
     padding: 25px;
     box-shadow: 0 3px 12px rgba(0,0,0,0.12);
     margin-top: 20px;
+    text-align: center;
   }
 
   .bouton-vote {
@@ -241,8 +199,6 @@
   .consigne-vote { font-size: 17px; margin-bottom: 18px; }
   .note-vote { font-size: 13px; color: #889; margin-top: 14px; }
 
-  .zone-vote { text-align: center; }
-
   /* ===== Pied de page ===== */
   footer {
     background: var(--texte);
@@ -254,36 +210,31 @@
 
   footer .vague-bas { margin-bottom: 15px; display: block; width: 100%; }
 
-  @media (max-width: 600px) {
-    .logos { gap: 20px; }
-    .logo-etab svg { width: 40px; height: 40px; }
-  }
- /* ===== Lightbox : photo en grand par-dessus la page ===== */
-.lightbox-modal {
-    display: none;                    /* cachée par défaut */
-    position: fixed;                  /* fixée à l'écran */
-    inset: 0;                         /* couvre tout l'écran */
-    background: rgba(0, 0, 0, 0.85);  /* fond sombre */
+  /* ===== Lightbox : photo en grand par-dessus la page ===== */
+  .lightbox-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
     z-index: 1000;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    cursor: zoom-out;                 /* le curseur invite à cliquer pour fermer */
-}
+    cursor: zoom-out;
+  }
 
-.lightbox-modal.ouverte {
-    display: flex;                    /* visible quand on ajoute la classe "ouverte" */
-}
+  .lightbox-modal.ouverte {
+    display: flex;
+  }
 
-.lightbox-modal img {
+  .lightbox-modal img {
     max-width: 100%;
-    max-height: 100%;                 /* la photo s'adapte à l'écran SANS déborder */
+    max-height: 100%;
     border-radius: 6px;
     box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
-}
+  }
 
-/* Petit texte d'aide sous la photo */
-.lightbox-modal .fermer-info {
+  .lightbox-modal .fermer-info {
     position: absolute;
     bottom: 15px;
     left: 50%;
@@ -291,15 +242,22 @@
     color: #fff;
     font-size: 14px;
     opacity: 0.7;
-}
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 600px) {
+    .logos { gap: 20px; }
+    .logo-etab svg { width: 40px; height: 40px; }
+    .carte-photo .image { height: 160px; }
+  }
 </style>
 </head>
 <body>
 
 <!-- ================= EN-TÊTE ================= -->
 <header class="hero">
-  <h1> Jeunesse Méditerranéenne</h1>
-  <p class="sous-titre">Projet photo inter-établissements — Regards de jeunes sur la Méditerranée</p>
+  <h1>🌊 Jeunesse Méditerranéenne</h1>
+  <p class="sous-titre">Prix Zoom Zoom 2e édition — Regards de jeunes sur la Méditerranée</p>
 </header>
 
 <!-- Vague décorative -->
@@ -309,7 +267,6 @@
 
 <!-- ================= LOGOS DES 3 ÉTABLISSEMENTS ================= -->
 <div class="logos">
-  <!-- Établissement 1 (remplacer les SVG par vos vrais logos en <img src="images/logo1.png">) -->
   <div class="logo-etab">
     <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#1b6ca8"/><path d="M18 32l8 8 16-18" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/></svg>
     <div class="nom">Lycée Exemple 1<small>ISC</small></div>
@@ -326,119 +283,146 @@
 
 <!-- ================= NAVIGATION ================= -->
 <nav>
-  <a href="#projet" class="actif">Le projet</a>
- 
+  <a href="#projet" class="actif">Le prix</a>
+  <a href="#photos">Les photos</a>
+  <a href="#vote">Voter</a>
 </nav>
 
 <main>
 
   <!-- ================= LE PROJET ================= -->
   <section id="projet">
-    <h2>Prix Zoom Zoom 2e édition !</h2>
+    <h2>Prix Zoom Zoom 2e édition !</h2>
     <p class="intro">
-      Nous voilà réunis à nouveau autour de ces 8 photos. Cette fois ci, c’est pour voter.
-Regarde les attentivement …Tu as eu l’occasion de les examiner en classe et la composition, les jeux de lumière, le message n’ont plus de secret pour toi… Tu as rencontré les photographes, tu as appris beaucoup de choses sur la photo …
-Laquelle d’entre elles te semble le mieux illustrer le thème « Jeunesses Méditerranéennes » ?
-Au moment de voter pour le cliché qui, selon toi, recevra le prix ZOOM ZOOM 2 des lycéens 2027, fais confiance à ton ressenti. Choisis celle que tu préfères, celle qui te touche le plus, t’émeut, te fait vibrer, t’étonne, te bouleverse, t’interpelle, te dérange…
-Chaque vote compte !
-Tu ne pourras bien sûr voter qu’une seule fois alors… fais le bon choix ! Tu as jusqu’au 15 mars.
-Merci pour ta participation.
+      Nous voilà réunis à nouveau autour de ces 8 photos. Cette fois-ci, c'est pour voter.<br><br>
+      Regarde-les attentivement… Tu as eu l'occasion de les examiner en classe : la composition, les jeux de lumière, le message n'ont plus de secret pour toi… Tu as rencontré les photographes, tu as appris beaucoup de choses sur la photo…<br><br>
+      <strong>Laquelle d'entre elles te semble le mieux illustrer le thème « Jeunesses Méditerranéennes » ?</strong><br><br>
+      Au moment de voter pour le cliché qui, selon toi, recevra le prix ZOOM ZOOM 2 des lycéens 2027, fais confiance à ton ressenti. Choisis celle que tu préfères, celle qui te touche le plus, t'émeut, te fait vibrer, t'étonne, te bouleverse, t'interpelle, te dérange…<br><br>
+      <strong>Chaque vote compte !</strong><br>
+      Tu ne pourras bien sûr voter qu'une seule fois alors… fais le bon choix ! Tu as jusqu'au 15 mars.<br><br>
+      Merci pour ta participation.
     </p>
   </section>
 
-  <!-- ================= PHOTOGRAPHES DE RENOM ================= -->
-  <section id="photographes">
-    <h2> les photos</h2>
-    <p>Des regards qui inspirent notre projet — la Méditerranée vue par les maîtres de la photographie.</p>
+  <!-- ================= LES PHOTOS ================= -->
+  <section id="photos">
+    <h2>Les photos</h2>
+    <p>Clique sur une photo pour la voir en grand.</p>
+
     <div class="cartes-photographes">
+
       <div class="carte-photo">
-       <div class="image">
-        <a href="img1.jpg" class="lightbox" target="_blank">
-        <img src="img1.jpg" alt="Photo de Jelel Bessaad">
-        </a>
-       </div>
+        <div class="image">
+          <a href="img1.jpg" class="lightbox" target="_blank">
+            <img src="img1.jpg" alt="Photo 1">
+          </a>
+        </div>
         <div class="info">
-          <h3>JELEL BESSAAD </h3>
-          <p>   </p>
+          <h3>JELEL BESSAAD</h3>
+          <p></p>
         </div>
       </div>
-      <div class="image">
-        <a href="img2.jpg" class="lightbox" target="_blank">
-        <img src="img2.jpg" alt="Photo de Jelel Bessaad">
-        </a>
-       </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img2.jpg" class="lightbox" target="_blank">
+            <img src="img2.jpg" alt="Photo 2">
+          </a>
+        </div>
         <div class="info">
-          <h3>JELEL BESSAAD </h3>
-          <p>   </p>
+          <h3>JELEL BESSAAD</h3>
+          <p></p>
         </div>
       </div>
-      
-      <div class="image">
-        <a href="img3.jpg" class="lightbox" target="_blank">
-        <img src="img3.jpg" alt="Photo de Jelel Bessaad">
-        </a>
-       </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img3.jpg" class="lightbox" target="_blank">
+            <img src="img3.jpg" alt="Photo 3">
+          </a>
+        </div>
         <div class="info">
-          <h3>JELEL BESSAAD </h3>
-          <p>   </p>
+          <h3>JELEL BESSAAD</h3>
+          <p></p>
         </div>
       </div>
-      <div class="image">
-        <a href="img4.jpg" class="lightbox" target="_blank">
-        <img src="img4.jpg" alt="Photo de Jelel Bessaad">
-        </a>
-       </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img4.jpg" class="lightbox" target="_blank">
+            <img src="img4.jpg" alt="Photo 4">
+          </a>
+        </div>
         <div class="info">
-          <h3>JELEL BESSAAD </h3>
-          <p>   </p>
+          <h3>JELEL BESSAAD</h3>
+          <p></p>
         </div>
       </div>
-      <div class="image">
-        <a href="img5.jpg" class="lightbox" target="_blank">
-        <img src="img5.jpg" alt="Photo de Jelel Bessaad">
-        </a>
-       </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img5.jpg" class="lightbox" target="_blank">
+            <img src="img5.jpg" alt="Photo 5">
+          </a>
+        </div>
         <div class="info">
-          <h3>JELEL BESSAAD </h3>
-          <p>   </p>
+          <h3>JELEL BESSAAD</h3>
+          <p></p>
         </div>
       </div>
-   <div class="image">
-        <a href="img6.jpg" class="lightbox" target="_blank">
-        <img src="img6.jpg" alt="Photo de Jelel Bessaad">
-        </a>
-       </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img6.jpg" class="lightbox" target="_blank">
+            <img src="img6.jpg" alt="Photo 6">
+          </a>
+        </div>
         <div class="info">
-          <h3>JELEL BESSAAD </h3>
-          <p>   </p>
+          <h3>JELEL BESSAAD</h3>
+          <p></p>
         </div>
       </div>
-   <div class="image">
-        <a href="img7.jpg" class="lightbox" target="_blank">
-        <img src="img7.jpg" alt="Photo de Jelel Bessaad">
-        </a>
-       </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img7.jpg" class="lightbox" target="_blank">
+            <img src="img7.jpg" alt="Photo 7">
+          </a>
+        </div>
         <div class="info">
-          <h3>JELEL BESSAAD </h3>
-          <p>   </p>
+          <h3>JELEL BESSAAD</h3>
+          <p></p>
         </div>
       </div>
-   <div class="image">
-        <a href="img8.jpg" class="lightbox" target="_blank">
-        <img src="img8.jpg" alt="Photo de Jelel Bessaad">
-        </a>
-       </div>
+
+      <div class="carte-photo">
+        <div class="image">
+          <a href="img8.jpg" class="lightbox" target="_blank">
+            <img src="img8.jpg" alt="Photo 8">
+          </a>
+        </div>
         <div class="info">
-          <h3>JELEL BESSAAD </h3>
-          <p>   </p>
+          <h3>JELEL BESSAAD</h3>
+          <p></p>
         </div>
       </div>
+
     </div>
   </section>
 
- 
-
- 
+  <!-- ================= VOTE ================= -->
+  <section id="vote">
+    <h2>Vote pour ta photo préférée</h2>
+    <div class="zone-vote">
+      <p class="consigne-vote">🗳️ Regarde les photos ci-dessus, puis clique sur le bouton pour aller voter. Un seul vote par élève, jusqu'au 15 mars.</p>
+      <a class="bouton-vote"
+         href="https://docs.google.com/forms/d/TON_ID_DE_FORMULAIRE/viewform"
+         target="_blank">
+        Voter maintenant
+      </a>
+      <p class="note-vote"><em>Une seule réponse par élève sera acceptée.</em></p>
+    </div>
+  </section>
 
 </main>
 
@@ -450,33 +434,35 @@ Merci pour ta participation.
   <p>Projet photo « Jeunesse Méditerranéenne » — Classe de Seconde &amp; établissements partenaires</p>
   <p>Année scolaire 2026–2027</p>
 </footer>
+
 <script>
-    // Créer la fenêtre modale (une seule pour toute la page)
-    const modal = document.createElement("div");
-    modal.className = "lightbox-modal";
-    modal.innerHTML = '<img src="" alt="Photo en grand"><p class="fermer-info">Cliquez n\'importe où pour fermer</p>';
-    document.body.appendChild(modal);
+  // Créer la fenêtre modale (une seule pour toute la page)
+  const modal = document.createElement("div");
+  modal.className = "lightbox-modal";
+  modal.innerHTML = "<img src='' alt='Photo en grand'><p class='fermer-info'>Cliquez n'importe où pour fermer</p>";
+  document.body.appendChild(modal);
 
-    const imgModal = modal.querySelector("img");
+  const imgModal = modal.querySelector("img");
 
-    // Ouvrir la modale quand on clique sur une photo
-    document.querySelectorAll("a.lightbox").forEach(function (lien) {
-        lien.addEventListener("click", function (e) {
-            e.preventDefault();                 // empêche le navigateur d'ouvrir l'image brut
-            imgModal.src = lien.getAttribute("href");  // la photo en taille réelle
-            modal.classList.add("ouverte");
-        });
+  // Ouvrir la modale quand on clique sur une photo
+  document.querySelectorAll("a.lightbox").forEach(function (lien) {
+    lien.addEventListener("click", function (e) {
+      e.preventDefault();
+      imgModal.src = lien.getAttribute("href");
+      modal.classList.add("ouverte");
     });
+  });
 
-    // Fermer en cliquant n'importe où sur la fenêtre
-    modal.addEventListener("click", function () {
-        modal.classList.remove("ouverte");
-    });
+  // Fermer en cliquant n'importe où sur la fenêtre
+  modal.addEventListener("click", function () {
+    modal.classList.remove("ouverte");
+  });
 
-    // Fermer avec la touche Échap
-    document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") modal.classList.remove("ouverte");
-    });
+  // Fermer avec la touche Échap
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") modal.classList.remove("ouverte");
+  });
 </script>
+
 </body>
 </html>
