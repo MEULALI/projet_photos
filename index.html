@@ -141,13 +141,17 @@
     margin-top: 20px;
   }
 
-  .carte-photo {
-    background: var(--blanc);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
-    transition: transform 0.3s;
-  }
+  .carte-photo .image {
+    height: 190px;        /* hauteur fixe du cadre */
+    overflow: hidden;     /* rien ne peut déborder */
+}
+
+.carte-photo .image img {
+    width: 100%;          /* la photo prend toute la largeur du cadre */
+    height: 100%;         /* ... et toute la hauteur */
+    object-fit: cover;    /* elle remplit le cadre SANS se déformer */
+    display: block;       /* évite l'espace bizarre sous l'image */
+}
 
   .carte-photo:hover { transform: translateY(-5px); }
 
