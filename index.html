@@ -258,6 +258,40 @@
     .logos { gap: 20px; }
     .logo-etab svg { width: 40px; height: 40px; }
   }
+ /* ===== Lightbox : photo en grand par-dessus la page ===== */
+.lightbox-modal {
+    display: none;                    /* cachée par défaut */
+    position: fixed;                  /* fixée à l'écran */
+    inset: 0;                         /* couvre tout l'écran */
+    background: rgba(0, 0, 0, 0.85);  /* fond sombre */
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    cursor: zoom-out;                 /* le curseur invite à cliquer pour fermer */
+}
+
+.lightbox-modal.ouverte {
+    display: flex;                    /* visible quand on ajoute la classe "ouverte" */
+}
+
+.lightbox-modal img {
+    max-width: 100%;
+    max-height: 100%;                 /* la photo s'adapte à l'écran SANS déborder */
+    border-radius: 6px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Petit texte d'aide sous la photo */
+.lightbox-modal .fermer-info {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 14px;
+    opacity: 0.7;
+}
 </style>
 </head>
 <body>
@@ -318,7 +352,11 @@ Merci pour ta participation.
     <p>Des regards qui inspirent notre projet — la Méditerranée vue par les maîtres de la photographie.</p>
     <div class="cartes-photographes">
       <div class="carte-photo">
-        <div class="image img1"><img src="img1.jpg" ></div>
+       <div class="image">
+       <a href="img1.jpg" class="lightbox" target="_blank">
+      <img src="img1.jpg" alt="Photo de Jelel Bessaad">
+        </a>
+  </div>
         <div class="info">
           <h3>JELEL BESSAAD </h3>
           <p>   </p>
@@ -376,6 +414,33 @@ Merci pour ta participation.
   <p>Projet photo « Jeunesse Méditerranéenne » — Classe de Seconde &amp; établissements partenaires</p>
   <p>Année scolaire 2026–2027</p>
 </footer>
+<script>
+    // Créer la fenêtre modale (une seule pour toute la page)
+    const modal = document.createElement("div");
+    modal.className = "lightbox-modal";
+    modal.innerHTML = '<img src="" alt="Photo en grand"><p class="fermer-info">Cliquez n\'importe où pour fermer</p>';
+    document.body.appendChild(modal);
 
+    const imgModal = modal.querySelector("img");
+
+    // Ouvrir la modale quand on clique sur une photo
+    document.querySelectorAll("a.lightbox").forEach(function (lien) {
+        lien.addEventListener("click", function (e) {
+            e.preventDefault();                 // empêche le navigateur d'ouvrir l'image brut
+            imgModal.src = lien.getAttribute("href");  // la photo en taille réelle
+            modal.classList.add("ouverte");
+        });
+    });
+
+    // Fermer en cliquant n'importe où sur la fenêtre
+    modal.addEventListener("click", function () {
+        modal.classList.remove("ouverte");
+    });
+
+    // Fermer avec la touche Échap
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") modal.classList.remove("ouverte");
+    });
+</script>
 </body>
 </html>
